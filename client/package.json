@@ -45,10 +45,13 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "autoprefixer": "^10.4.8",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.9.1",
     "eslint-plugin-prettier": "^3.0.0",
+    "postcss": "^8.4.16",
     "prettier": "^1.16.4",
-    "redux-mock-store": "^1.5.3"
+    "redux-mock-store": "^1.5.3",
+    "tailwindcss": "^3.1.8"
   }
 }
