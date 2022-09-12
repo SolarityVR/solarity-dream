@@ -60,6 +60,7 @@ const VariableField = field => {
             type={field.type}
             placeholder={field.label}
             autoComplete='off'
+            disabled={!!field.disabled ? true : false}
           />
         </InputWrapper>
       );

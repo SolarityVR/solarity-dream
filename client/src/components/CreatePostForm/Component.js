@@ -17,6 +17,14 @@ const postTypes = [
 ];
 
 class CreatePostForm extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: "123",
+    };
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { token, post, history } = this.props;
     if (!token) history.push('/');
@@ -25,12 +33,27 @@ class CreatePostForm extends React.Component {
 
   onSubmit = post => this.props.attemptCreatePost(post);
 
-  mapCategories = () =>
+  mapCategories = () => {
     categories.map((category, index) => (
       <option key={index} value={category}>
         {category}
       </option>
     ));
+  }
+
+  fetchAIImage = async () => {
+    if(!!this.props.form.values.title) {
+      const res = await fetch(
+        'https://dalle-mini.amasad.repl.co/gen/' + this.props.form.values.title,
+        {
+          method: "GET",
+        }
+      );
+      const imageBlob = await res.blob();
+      const imageObjectURL = URL.createObjectURL(imageBlob);
+      console.log(imageObjectURL, imageBlob);
+    }
+  }
 
   render() {
     return (
@@ -54,12 +77,17 @@ class CreatePostForm extends React.Component {
         >
           {this.mapCategories()}
         </Field>
-        <div style={{display: "flex"}}>
-          <Field name='title' label='title' type='text' component={renderField} />
-          <SubmitButton>Generate</SubmitButton>
+        <div style={{display: "flex", width: "100%", gap: "10px"}}>
+          <Field name='title' label='title' type='text' component={renderField}/>
+          <div style={{marginTop: "25px"}}>
+            <SubmitButton onClick={this.fetchAIImage}>Generate</SubmitButton>
+          </div>
         </div>
         {this.props.form.values.type === 'link' && (
-          <Field name='url' label='url' type='url' component={renderField} />
+          <div>
+            <Field name='url' label='url' type='url' component={renderField} disabled={true} />
+            {/* <img src={} /> */}
+          </div>
         )}
         {this.props.form.values.type === 'text' && (
           <Field
