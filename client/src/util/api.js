@@ -1,15 +1,16 @@
 const baseUrl =
   process.env.NODE_ENV === 'development'
-    ? 'http://localhost:8080/api'
-    : `https://${window.location.hostname}/api`;
+    ? 'http://localhost:5000/api'
+    : `https://solarity-dream-backend.herokuapp.com/api`;
 
 const methods = {
   get: async function (endpoint, token = null) {
     const options = {
       method: 'GET',
       headers: {
-        ...(token && { Authorization: `Bearer ${token}` })
-      }
+        ...(token && { Authorization: `Bearer ${token}` }),
+        "Access-Control-Allow-Origin": "*",
+      },
     };
 
     const response = await fetch(`${baseUrl}/${endpoint}`, options);
