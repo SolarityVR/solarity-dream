@@ -26,8 +26,12 @@ const Wrapper = styled.div`
 const renderTitle = props => {
   switch (props.type) {
     case 'link':
-      return <a href={props.url}>{props.title}</a>;
-
+      return (
+        <div>
+          <a href={props.url}>{props.title}</a>
+          <img src={props.url} alt="stable diffusion image" />
+        </div>
+      );
     case 'text':
       if (props.full) return <span>{props.title}</span>;
       return <Link to={`/a/${props.category}/${props.id}`}>{props.title}</Link>;

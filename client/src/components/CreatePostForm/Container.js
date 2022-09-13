@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { reduxForm } from 'redux-form';
+import { reduxForm, change } from 'redux-form';
 import {
   titleValidator,
   urlValidator,
@@ -33,7 +33,7 @@ const mapStateToProps = state => ({
   form: state.form.createPost
 });
 
-const mapDispatchToProps = { attemptCreatePost };
+const mapDispatchToProps = { attemptCreatePost, change };
 
 const enhance = compose(
   reduxForm({

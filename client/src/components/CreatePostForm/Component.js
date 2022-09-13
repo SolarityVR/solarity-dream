@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field } from 'redux-form';
+import axios from 'axios';
 import categories from '../../categories';
 import Form from '../shared/form/Form';
 import renderField from '../shared/form/renderField';
@@ -21,7 +22,7 @@ class CreatePostForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "123",
+      image: "",
     };
   }
 
@@ -50,8 +51,22 @@ class CreatePostForm extends React.Component {
         }
       );
       const imageBlob = await res.blob();
-      const imageObjectURL = URL.createObjectURL(imageBlob);
-      console.log(imageObjectURL, imageBlob);
+
+      const formData = new FormData();
+      formData.append("file", imageBlob);
+      const resFile = await axios({
+        method: "post",
+        url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        data: formData,
+        headers: {
+            'pinata_api_key': `a9b1ab4fa77ba1827460`,
+            'pinata_secret_api_key': `7db48e97a0aaf470e53e292c22a08a7ed0893d601d8f5748bdb2fc637f832b9a`,
+            "Content-Type": "multipart/form-data"
+        },
+      });
+      const imagePath = `https://ipfs.io/ipfs/${resFile.data.IpfsHash}`;
+      this.props.change('createPost', 'url', imagePath);
+      this.setState({"image": imagePath});
     }
   }
 
@@ -84,9 +99,9 @@ class CreatePostForm extends React.Component {
           </div>
         </div>
         {this.props.form.values.type === 'link' && (
-          <div>
-            <Field name='url' label='url' type='url' component={renderField} disabled={true} />
-            {/* <img src={} /> */}
+          <div style={{width: "100%"}}>
+            <Field name='url' label='url' type='url' component={renderField} />
+            <img src={this.state.image} alt="stable diffusion" />
           </div>
         )}
         {this.props.form.values.type === 'text' && (

@@ -1,8 +1,9 @@
 {
-  "name": "asperitas",
+  "name": "solarity-dream",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.27.2",
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
     "react": "^16.8.3",
