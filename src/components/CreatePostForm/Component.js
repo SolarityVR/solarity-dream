@@ -23,6 +23,7 @@ class CreatePostForm extends React.Component {
     super(props);
     this.state = {
       image: "",
+      step: 0,
     };
   }
 
@@ -34,16 +35,9 @@ class CreatePostForm extends React.Component {
 
   onSubmit = post => this.props.attemptCreatePost(post);
 
-  mapCategories = () => {
-    categories.map((category, index) => (
-      <option key={index} value={category}>
-        {category}
-      </option>
-    ));
-  }
-
   fetchAIImage = async () => {
     if(!!this.props.form.values.title) {
+      this.setState({"step": 1});
       const res = await fetch(
         'https://dalle-mini.amasad.repl.co/gen/' + this.props.form.values.title,
         {
@@ -54,6 +48,7 @@ class CreatePostForm extends React.Component {
 
       const formData = new FormData();
       formData.append("file", imageBlob);
+      this.setState({"step": 2});
       const resFile = await axios({
         method: "post",
         url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
@@ -67,6 +62,7 @@ class CreatePostForm extends React.Component {
       const imagePath = `https://ipfs.io/ipfs/${resFile.data.IpfsHash}`;
       this.props.change('createPost', 'url', imagePath);
       this.setState({"image": imagePath});
+      this.setState({'step': 0});
     }
   }
 
@@ -90,7 +86,13 @@ class CreatePostForm extends React.Component {
           type='select'
           component={renderField}
         >
-          {this.mapCategories()}
+          {
+            categories.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
+              </option>
+            ))
+          }
         </Field>
         <div style={{display: "flex", width: "100%", gap: "10px"}}>
           <Field name='title' label='title' type='text' component={renderField}/>
@@ -98,19 +100,31 @@ class CreatePostForm extends React.Component {
             <SubmitButton onClick={this.fetchAIImage}>Generate</SubmitButton>
           </div>
         </div>
-        {this.props.form.values.type === 'link' && (
-          <div style={{width: "100%"}}>
-            <Field name='url' label='url' type='url' component={renderField} />
-            <img src={this.state.image} alt="stable diffusion" />
+        {this.state.step == 0 && (
+          <div style={{width: "100%"}}>  
+            {this.props.form.values.type === 'link' && (
+              <div style={{width: "100%"}}>
+                <Field name='url' label='url' type='url' component={renderField} />
+                {this.state.image != "" && (
+                  <img src={this.state.image} alt="stable diffusion" />
+                )}
+              </div>
+            )}
+            {this.props.form.values.type === 'text' && (
+              <Field
+                name='text'
+                label='text'
+                type='textarea'
+                component={renderField}
+              />
+            )}
           </div>
         )}
-        {this.props.form.values.type === 'text' && (
-          <Field
-            name='text'
-            label='text'
-            type='textarea'
-            component={renderField}
-          />
+        {this.state.step == 1 && (
+          <div style={{width: "100%"}}>generating an image from title</div>
+          )}
+        {this.state.step == 2 && (
+          <div style={{width: "100%"}}>uploading an generated image to IPFS</div>
         )}
         <SubmitButton type='submit'>create post</SubmitButton>
       </Form>

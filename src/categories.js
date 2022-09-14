@@ -1,10 +1,8 @@
 const categories = [
-  'music',
   'funny',
-  'videos',
-  'programming',
-  'news',
-  'fashion'
+  'Art',
+  'Tech',
+  'Fantasy'
 ];
 
 export default categories;
