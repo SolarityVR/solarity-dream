@@ -59,10 +59,13 @@ class CreatePostForm extends React.Component {
             "Content-Type": "multipart/form-data"
         },
       });
+      this.setState({'step': 3});
       const imagePath = `https://ipfs.io/ipfs/${resFile.data.IpfsHash}`;
       this.props.change('createPost', 'url', imagePath);
       this.setState({"image": imagePath});
-      this.setState({'step': 0});
+      document.querySelector('#post-image').addEventListener('load', (e) => {
+        this.setState({'step': 4})
+      })
     }
   }
 
@@ -100,14 +103,12 @@ class CreatePostForm extends React.Component {
             <SubmitButton onClick={this.fetchAIImage}>Generate</SubmitButton>
           </div>
         </div>
-        {this.state.step == 0 && (
+        {(this.state.step == 0 || this.state.step == 3) && (
           <div style={{width: "100%"}}>  
             {this.props.form.values.type === 'link' && (
-              <div style={{width: "100%"}}>
+              <div style={{width: "100%", display: (this.state.step == 4 ? "block": "none")}}>
                 <Field name='url' label='url' type='url' component={renderField} />
-                {this.state.image != "" && (
-                  <img src={this.state.image} alt="stable diffusion" />
-                )}
+                <img src={this.state.image} id="post-image" alt="stable diffusion" />
               </div>
             )}
             {this.props.form.values.type === 'text' && (
@@ -125,6 +126,9 @@ class CreatePostForm extends React.Component {
           )}
         {this.state.step == 2 && (
           <div style={{width: "100%"}}>uploading an generated image to IPFS</div>
+        )}
+        {this.state.step == 3 && (
+          <div style={{width: "100%"}}>loading an generated image from IPFS</div>
         )}
         <SubmitButton type='submit'>create post</SubmitButton>
       </Form>
