@@ -1,7 +1,6 @@
 import { TOGGLE_DARK_THEME } from '../actions/theme';
 
-const dark = localStorage.getItem('dark') === 'true';
-const initialState = { dark };
+const initialState = { dark: true };
 
 export default (state = initialState, action) => {
   switch (action.type) {
