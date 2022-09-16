@@ -103,7 +103,7 @@ class CreatePostForm extends React.Component {
             <SubmitButton onClick={this.fetchAIImage}>Generate</SubmitButton>
           </div>
         </div>
-        {(this.state.step == 0 || this.state.step == 3) && (
+        {(this.state.step != 1 && this.state.step != 2) && (
           <div style={{width: "100%"}}>  
             {this.props.form.values.type === 'link' && (
               <div style={{width: "100%", display: (this.state.step == 4 ? "block": "none")}}>
