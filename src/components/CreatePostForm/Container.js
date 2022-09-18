@@ -3,7 +3,6 @@ import { compose } from 'redux';
 import { reduxForm, change } from 'redux-form';
 import {
   titleValidator,
-  urlValidator,
   textPostValidator,
   typeValidator
 } from '../../util/validators';
@@ -36,7 +35,7 @@ const mapDispatchToProps = { attemptCreatePost, change };
 const enhance = compose(
   reduxForm({
     form: 'createPost',
-    initialValues: { category: categories[0] },
+    initialValues: { category: categories[0], type: 'link', url: "https://default.com" },
     validate
   }),
   withAuth,

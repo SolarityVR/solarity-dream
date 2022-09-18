@@ -54,13 +54,13 @@ class CreatePostForm extends React.Component {
         url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
         data: formData,
         headers: {
-            'pinata_api_key': `a9b1ab4fa77ba1827460`,
-            'pinata_secret_api_key': `7db48e97a0aaf470e53e292c22a08a7ed0893d601d8f5748bdb2fc637f832b9a`,
+            'pinata_api_key': `44852823011ffd6236df`,
+            'pinata_secret_api_key': `d481682ad8693b31d4f217d5b1b9848c2d070fcab73b07d853a111eb3d4a0122`,
             "Content-Type": "multipart/form-data"
         },
       });
       this.setState({'step': 3});
-      const imagePath = `https://ipfs.io/ipfs/${resFile.data.IpfsHash}`;
+      const imagePath = `https://solarity.mypinata.cloud/ipfs/${resFile.data.IpfsHash}`;
       this.props.change('createPost', 'url', imagePath);
       this.setState({"image": imagePath});
       document.querySelector('#post-image').addEventListener('load', (e) => {
@@ -100,7 +100,7 @@ class CreatePostForm extends React.Component {
         <div style={{display: "flex", width: "100%", gap: "10px"}}>
           <Field name='title' label='title' type='text' component={renderField}/>
           <div style={{marginTop: "25px"}}>
-            <SubmitButton onClick={this.fetchAIImage}>Generate</SubmitButton>
+            <SubmitButton type="button" onClick={this.fetchAIImage}>Generate</SubmitButton>
           </div>
         </div>
         {(this.state.step != 1 && this.state.step != 2) && (
