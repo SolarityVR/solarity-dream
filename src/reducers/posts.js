@@ -6,6 +6,8 @@ import {
   FETCH_POST_SUCCESS,
   FETCH_POST_ERROR,
   CREATE_POST_REQUEST,
+  SET_LOADING,
+  CLEAR_LOADING,
   CREATE_POST_SUCCESS,
   CREATE_POST_ERROR,
   DELETE_POST_REQUEST,
@@ -30,6 +32,10 @@ const updateItems = (post, items) =>
 let items;
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_LOADING:
+      return { ...state, isFetching: true };
+    case CLEAR_LOADING:
+      return { ...state, isFetching: false };
     case FETCH_POSTS_REQUEST:
       return { ...state, isFetching: true, post: null, newPost: null };
     case FETCH_POSTS_SUCCESS:

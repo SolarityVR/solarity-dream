@@ -55,6 +55,22 @@ export const fetchPost = id => async dispatch => {
   }
 };
 
+export const SET_LOADING = 'SET_LOADING';
+
+export const setLoading = () => async (dispatch, getState) => {
+  dispatch({
+    type: SET_LOADING
+  });
+}
+
+export const CLEAR_LOADING = 'CLEAR_LOADING';
+
+export const clearLoading = () => async (dispatch, getState) => {
+  dispatch({
+    type: CLEAR_LOADING
+  });
+}
+
 export const CREATE_POST_REQUEST = 'CREATE_POST_REQUEST';
 export const CREATE_POST_SUCCESS = 'CREATE_POST_SUCCESS';
 export const CREATE_POST_ERROR = 'CREATE_POST_ERROR';

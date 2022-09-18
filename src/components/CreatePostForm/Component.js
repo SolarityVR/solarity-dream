@@ -37,6 +37,7 @@ class CreatePostForm extends React.Component {
 
   fetchAIImage = async () => {
     if(!!this.props.form.values.title) {
+      this.props.setLoading();
       this.setState({"step": 1});
       const res = await fetch(
         'https://dalle-mini.amasad.repl.co/gen/' + this.props.form.values.title,
@@ -64,6 +65,7 @@ class CreatePostForm extends React.Component {
       this.props.change('createPost', 'url', imagePath);
       this.setState({"image": imagePath});
       document.querySelector('#post-image').addEventListener('load', (e) => {
+        this.props.clearLoading();
         this.setState({'step': 4})
       })
     }
