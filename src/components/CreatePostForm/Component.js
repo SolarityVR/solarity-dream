@@ -109,8 +109,8 @@ class CreatePostForm extends React.Component {
           <div style={{width: "100%"}}>  
             {this.props.form.values.type === 'link' && (
               <div style={{width: "100%", display: (this.state.step == 4 ? "block": "none")}}>
-                <Field name='url' label='url' type='url' component={renderField} />
                 <img src={this.state.image} id="post-image" alt="stable diffusion" />
+                <Field name='url' label='url' type='url' component={renderField} />
               </div>
             )}
             {this.props.form.values.type === 'text' && (
