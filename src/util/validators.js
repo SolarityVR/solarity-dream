@@ -36,7 +36,7 @@ export const postType = value =>
 export const usernameValidator = [required, max(32), validChars, trimmed];
 export const passwordValidator = [required, min(8), max(72)];
 export const titleValidator = value =>
-  required(value) || checkMaxLength(value, 100);
+  required(value);
 export const textPostValidator = value =>
   required(value) || checkMinLength(value, 4);
 export const urlValidator = value => required(value) || validUrl(value);
